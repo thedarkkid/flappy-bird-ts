@@ -1,1 +1,1 @@
-alert("entry ");
+import "./style.scss";

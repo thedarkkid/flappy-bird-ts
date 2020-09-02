@@ -1,9 +1,13 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
+    devtool: 'inline-source-map',
     entry:{
         script: "./src/entry.ts",
         vendor: "./src/vendor.ts"
+    },
+    resolve: {
+        extensions: ['.ts', '.js', '.tsx']
     },
     plugins: [
         new HtmlWebpackPlugin({

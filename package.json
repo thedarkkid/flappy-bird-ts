@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Flappy birds game built in typescript",
   "private": true,
-  "main": "index.js",
+  "main": "dist/script.js",
   "scripts": {
     "dev": "webpack-dev-server --config webpack.dev.js --open",
     "build": "webpack --config webpack.prod.js",

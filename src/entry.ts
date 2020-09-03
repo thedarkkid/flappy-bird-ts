@@ -4,6 +4,7 @@ import ObstacleFactory from "./core/ObstacleFactory";
 import ObstacleManager from "./core/ObstacleManager";
 import Obstacle from "./core/Obstacle";
 
+// Check to use events to manage game over.
 document.addEventListener('DOMContentLoaded', () => {
     let bird: Bird = new Bird(document.querySelector('.bird'));
     const factory =  ObstacleFactory;
@@ -36,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         manager.generateObstacle();
         obstacleGeneratorTimerID = setInterval(() => {
             manager.generateObstacle();
-            if(bird.Crashed) { endGame();}
+            if(bird.Crashed || gameOver()) { endGame();}
         }, 3000);
     };
 
@@ -68,7 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
         gameOnPause = false;
     };
 
-
+    const gameOver = (): boolean => {
+        const obstacle: Obstacle = factory.latest();
+        if(obstacle == null) return true;
+        return obstacle.MidInterface || bird.Static;
+    };
 
     startGame();
 });

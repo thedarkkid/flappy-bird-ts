@@ -33,7 +33,11 @@ export default class Bird {
         document.removeEventListener('keyup', this.ctrlFly);
     };
 
+    get Static(){
+        return this.left === 220;
+    };
+
     get Crashed(){
         return this.bottom <= 0;
-    }
+    };
 }

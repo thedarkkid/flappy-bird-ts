@@ -4,19 +4,18 @@ import ObstacleManager from "./ObstacleManager";
 
 class ObstacleFactory {
     private static _instance: ObstacleFactory;
-    private storage = ObstacleStorage;
 
     create = ():number => {
         const obsNode = document.createElement("div");
         const obstacle: Obstacle = new Obstacle(obsNode);
-        return this.storage.add(obstacle);
+        return ObstacleStorage.add(obstacle);
     };
 
     destroy = (obstacleId: number): void => {
-        if(!this.storage.has(obstacleId)) return;
+        if(!ObstacleStorage.has(obstacleId)) return;
         if(ObstacleManager.isMoving(obstacleId)) ObstacleManager.stop(obstacleId);
         ObstacleManager.removeFromDisplay(obstacleId);
-        this.storage.remove(obstacleId);
+        ObstacleStorage.remove(obstacleId);
     };
 
     reset = () => {

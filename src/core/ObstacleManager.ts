@@ -4,7 +4,6 @@ import ObstacleFactory from "./ObstacleFactory";
 
 class ObstacleManager {
     private static _instance: ObstacleManager;
-    private storage = ObstacleStorage;
     private moving: Map<number, any> = new Map<number, any>();
     private display:HTMLDivElement;
 
@@ -20,7 +19,7 @@ class ObstacleManager {
 
     move = (obstacleId: number): void => {
         if(this.isMoving(obstacleId)) return;
-        const obstacle: Obstacle = this.storage.get(obstacleId);
+        const obstacle: Obstacle = ObstacleStorage.get(obstacleId);
 
         const obstacleMoveId = setInterval( () => {
             obstacle.slide(2);
@@ -46,23 +45,23 @@ class ObstacleManager {
     stopAll = () => {
         this.moving.forEach( (moveId, obstacleId, moving) => {
             this.stop(obstacleId);
-            ObstacleFactory.destroy(obstacleId);
         });
         this.moving = new Map<number, any>();
     };
 
     addToDisplay = (obstacleId: number): void => {
         if(this.isMoving(obstacleId)) return;
-        if(!this.storage.has(obstacleId)) return;
-        this.display.appendChild(this.storage.get(obstacleId).Node);
+        if(!ObstacleStorage.has(obstacleId)) return;
+        this.display.appendChild(ObstacleStorage.get(obstacleId).Node);
     };
 
+
     removeFromDisplay = (obstacleId: number): void => {
-        const obstacle = this.storage.get(obstacleId);
+        const obstacle = ObstacleStorage.get(obstacleId);
         obstacle.Node.remove();
         this.stop(obstacleId);
     };
-
+    
     public static get Instance(){
         return this._instance || (this._instance = new this(document.querySelector('.game-container')))
     }

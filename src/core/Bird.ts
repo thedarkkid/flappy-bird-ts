@@ -16,6 +16,7 @@ export default class Bird {
     };
 
     public fall = (gravity: number): void => {
+        if(this.Crashed) return;
         this.bottom -= gravity;
         this.node_.style.bottom = this.bottom + 'px';
     };
@@ -26,5 +27,13 @@ export default class Bird {
 
     public addFlyEL= (): void => {
         document.addEventListener('keyup', this.ctrlFly);
+    };
+
+    public removeFlyEL = (): void => {
+        document.removeEventListener('keyup', this.ctrlFly);
+    };
+
+    get Crashed(){
+        return this.bottom <= 0;
     }
 }

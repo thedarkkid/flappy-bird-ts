@@ -31,20 +31,18 @@ document.addEventListener('DOMContentLoaded', () => {
         bird = new Bird(document.querySelector('.bird'));
     };
 
-    const generateObstacle = () => {
-        const obstacleId: number = factory.create();
-        manager.addToDisplay(obstacleId);
-        manager.move(obstacleId);
-        if(bird.Crashed) { endGame();}
+    const generateObstacles = () => {
+        obstacleGeneratorTimerID = setInterval(() => {
+            manager.generateObstacle();
+            if(bird.Crashed) { endGame();}
+        }, 3000);
     };
 
     const startGame = () => {
         // Clear all previous elements.
         factory.reset();
         resetBird();
-        generateObstacle();
-
-        obstacleGeneratorTimerID = setInterval(generateObstacle, 3000);
+        generateObstacles();
 
         startBirdMotion();
         gameOn = true;

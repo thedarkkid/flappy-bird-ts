@@ -1,28 +1,31 @@
 import Obstacle from "./Obstacle";
+import ObstacleStorage  from "./ObstacleStorage";
+import ObstacleManager from "./ObstacleManager";
 
 class ObstacleFactory {
     private static _instance: ObstacleFactory;
+    private storage = ObstacleStorage;
 
-    private obstacles:Map<number, Obstacle> = new Map<number, Obstacle>();
-    private display:HTMLDivElement;
-    private tally: number = 0;
-
-    private constructor(_display: HTMLDivElement) {
-        this.display = _display;
-    }
-
-    generate = ():number => {
+    create = ():number => {
         const obsNode = document.createElement("div");
-        const obstacle = new Obstacle(obsNode);
+        const obstacle: Obstacle = new Obstacle(obsNode);
+        return this.storage.add(obstacle);
+    };
 
-        this.display.appendChild(obsNode);
-        this.obstacles.set(++this.tally, obstacle);
+    destroy = (obstacleId: number): void => {
+        if(!this.storage.has(obstacleId)) return;
+        if(ObstacleManager.isMoving(obstacleId)) ObstacleManager.stop(obstacleId);
+        ObstacleManager.removeFromDisplay(obstacleId);
+        this.storage.remove(obstacleId);
+    };
 
-        return this.tally;
+    reset = () => {
+        ObstacleManager.stopAll();
+        ObstacleStorage.removeAll();
     };
 
     public static get Instance(){
-        return this._instance || (this._instance = new this(document.querySelector('.game-container')))
+        return this._instance || (this._instance = new this);
     }
 }
 

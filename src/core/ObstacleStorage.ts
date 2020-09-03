@@ -22,6 +22,13 @@ class ObstacleStorage {
         return this.obstacles.delete(obstacleId);
     };
 
+    pop = (num?: number): Obstacle|null => {
+        num = (num)? num : this.tally;
+        if(num <= 0) return null;
+        if(this.obstacles.has(num)) return this.obstacles.get(this.tally);
+        else return this.pop(num-1);
+    };
+
     removeAll = (): void => {
         this.obstacles = new Map<number, Obstacle>();
     };

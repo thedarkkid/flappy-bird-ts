@@ -55,20 +55,17 @@ class ObstacleManager {
         this.display.appendChild(ObstacleStorage.get(obstacleId).Node);
     };
 
-
     removeFromDisplay = (obstacleId: number): void => {
         const obstacle = ObstacleStorage.get(obstacleId);
         obstacle.Node.remove();
         this.stop(obstacleId);
     };
 
-
     generateObstacle = () => {
         const obstacleId: number = ObstacleFactory.create();
         this.addToDisplay(obstacleId);
         this.move(obstacleId);
     };
-
 
     public static get Instance(){
         return this._instance || (this._instance = new this(document.querySelector('.game-container')))

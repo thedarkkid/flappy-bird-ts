@@ -23,6 +23,10 @@ class ObstacleFactory {
         ObstacleStorage.removeAll();
     };
 
+    latest = (): Obstacle => {
+        return ObstacleStorage.pop();
+    };
+
     public static get Instance(){
         return this._instance || (this._instance = new this);
     }

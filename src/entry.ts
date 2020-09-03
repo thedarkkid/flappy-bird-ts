@@ -2,6 +2,7 @@ import "./style.scss";
 import Bird from "./core/Bird";
 import ObstacleFactory from "./core/ObstacleFactory";
 import ObstacleManager from "./core/ObstacleManager";
+import Obstacle from "./core/Obstacle";
 
 document.addEventListener('DOMContentLoaded', () => {
     let bird: Bird = new Bird(document.querySelector('.bird'));
@@ -32,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const generateObstacles = () => {
+        manager.generateObstacle();
         obstacleGeneratorTimerID = setInterval(() => {
             manager.generateObstacle();
             if(bird.Crashed) { endGame();}
@@ -42,8 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clear all previous elements.
         factory.reset();
         resetBird();
+
+        // Start generating obstacles.
         generateObstacles();
 
+        // Make bird start moving.
         startBirdMotion();
         gameOn = true;
     };
@@ -62,6 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
         stopGame();
         gameOnPause = false;
     };
+
+
 
     startGame();
 });

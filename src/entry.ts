@@ -72,7 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameOver = (): boolean => {
         const obstacle: Obstacle = factory.latest();
         if(obstacle == null) return true;
-        return obstacle.MidInterface || bird.Static;
+        console.log(`Altitude ${bird.Altitude}, Obstacle height ${obstacle.Height}, Mid interface: ${obstacle.MidInterface}`);
+        return obstacle.MidInterface && (bird.Altitude  < obstacle.Height); // 150 = ground height, which bird < obstacle
     };
 
     startGame();

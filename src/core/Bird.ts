@@ -40,4 +40,8 @@ export default class Bird {
     get Crashed(){
         return this.bottom <= 0;
     };
+
+    get Altitude(){
+        return this.bottom +150;
+    }
 }

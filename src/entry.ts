@@ -1,14 +1,16 @@
 import "./style.scss";
-import Bird from "./core/Bird";
-import ObstacleFactory from "./core/ObstacleFactory";
-import ObstacleManager from "./core/ObstacleManager";
-import Obstacle from "./core/Obstacle";
+import Bird from "./core/components/Bird";
+import ObstacleFactory from "./core/components/obstacle/ObstacleFactory";
+import ObstacleManager from "./core/components/obstacle/ObstacleManager";
+import Obstacle from "./core/components/obstacle/Obstacle";
+import Controller from "./core/Controller";
 
 // Check to use events to manage game over.
 document.addEventListener('DOMContentLoaded', () => {
     let bird: Bird = new Bird(document.querySelector('.bird'));
     const factory =  ObstacleFactory;
     const manager = ObstacleManager;
+    const game = Controller;
 
     let birdMotionTimerID: any;
     let obstacleGeneratorTimerID: any;
@@ -16,6 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let gameOn: boolean = false;
     let gameOnPause: boolean = false;
     let gravity:number = 2;
+
+    const obstacleAtMid = (e: CustomEvent<Obstacle>) => {
+        if(gameOver(e.detail)) endGame();
+    };
 
     const startBirdMotion = () => {
         birdMotionTimerID = setInterval(() => {
@@ -37,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
         manager.generateObstacle();
         obstacleGeneratorTimerID = setInterval(() => {
             manager.generateObstacle();
-            if(bird.Crashed || gameOver()) { endGame();}
         }, 3000);
     };
 
@@ -51,11 +56,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Make bird start moving.
         startBirdMotion();
+        game.addGameOverEl(endGame);
+        game.addObstacleAtMidEL(obstacleAtMid);
         gameOn = true;
     };
 
     const stopGame = () => {
         stopBirdMotion();
+        game.removeGameOverEl(endGame);
+        game.removeObstacleAtMidEL(obstacleAtMid);
         manager.stopAll();
 
         gameOn = false;
@@ -69,10 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
         gameOnPause = false;
     };
 
-    const gameOver = (): boolean => {
-        const obstacle: Obstacle = factory.latest();
+    const gameOver = (obstacle: Obstacle): boolean => {
         if(obstacle == null) return true;
-        console.log(`Altitude ${bird.Altitude}, Obstacle height ${obstacle.Height}, Mid interface: ${obstacle.MidInterface}`);
         return obstacle.MidInterface && (bird.Altitude  < obstacle.Height); // 150 = ground height, which bird < obstacle
     };
 

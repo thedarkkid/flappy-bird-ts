@@ -23,6 +23,7 @@ class ObstacleManager {
 
         const obstacleMoveId = setInterval( () => {
             obstacle.slide(2);
+            obstacle.checkAtMid();
             if(obstacle.Out) {
                 ObstacleFactory.destroy(obstacleId);
             }

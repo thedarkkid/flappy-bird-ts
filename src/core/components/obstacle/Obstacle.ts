@@ -1,4 +1,4 @@
-import {ObstacleAtMid} from "./events";
+import {getOAMEvent} from "../../Events";
 
 export default class Obstacle{
     private readonly node_: HTMLDivElement;
@@ -18,7 +18,8 @@ export default class Obstacle{
     };
 
     checkAtMid = () => {
-        if (this.MidInterface) this.node_.dispatchEvent(ObstacleAtMid);
+        const event: CustomEvent<Obstacle> = getOAMEvent(this);
+        if (this.MidInterface) document.dispatchEvent(event);
     };
 
     get Node(){

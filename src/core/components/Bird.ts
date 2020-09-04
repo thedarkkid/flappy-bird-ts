@@ -1,3 +1,5 @@
+import {GameOverEvent} from "../Events";
+
 export default class Bird {
     private node_: HTMLDivElement;
     private bottom: number = 100;
@@ -10,15 +12,19 @@ export default class Bird {
     }
 
     public fly = (): void => {
-        if(this.bottom >= 495) return;
+        if(this.bottom >= 495 || this.Crashed) return;
         this.bottom += 50;
         this.node_.style.bottom = this.bottom + 'px';
     };
 
     public fall = (gravity: number): void => {
-        if(this.Crashed) return;
+        this.birdCrashed();
         this.bottom -= gravity;
         this.node_.style.bottom = this.bottom + 'px';
+    };
+
+    public birdCrashed = () => {
+        if (this.Crashed) document.dispatchEvent(GameOverEvent);
     };
 
     private ctrlFly = (e:KeyboardEvent) =>{

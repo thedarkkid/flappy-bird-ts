@@ -11,9 +11,9 @@ export const birdControl =  {
      startMotion: (gravity: number) => {
         birdMotionTimerID = setInterval(() => {
             bird.fall(gravity);
-            bird.addFlyEL();
         }, 20);
-    },
+         bird.addFlyEL();
+     },
 
      stopMotion: () => {
         bird.removeFlyEL();
@@ -35,10 +35,11 @@ export const gameControl = {
 
 export const obstaclesControl = {
     generateObstacles: (speed: number) => {
+        speed = 2500/speed + ((3000/speed)/2); // calculation for how fast/slow obstacles are generated.
         manager.generateObstacle();
         obstacleGeneratorTimerID = setInterval(() => {
             manager.generateObstacle();
-        }, speed*1000);
+        }, speed);
     },
 
     obstacleAtMid: (e: CustomEvent<Obstacle>, endGame: Function) => {

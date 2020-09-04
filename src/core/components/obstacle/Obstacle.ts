@@ -31,7 +31,7 @@ export default class Obstacle{
     }
 
     get MidInterface(){
-        return this.left > 200 && this.left < 280;
+        return this.left > 195 && this.left < 280;
     }
 
     get Height(){

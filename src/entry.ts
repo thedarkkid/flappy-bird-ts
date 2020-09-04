@@ -17,33 +17,38 @@ document.addEventListener('DOMContentLoaded', () => {
     let gameOn: boolean = false;
     let gameOnPause: boolean = false;
     let gravity:number = 2;
-    let speed: number = 3;
+    let speed: number = 1; // Number between 1 & 3.
 
     const obstacleAtMid = (e: CustomEvent<Obstacle>) => {
         obstacles.obstacleAtMid(e, endGame)
     };
 
-    const startGame = () => {
-        factory.reset();
-        bird.reset();
+    const continueGame = () => {
+        obstacles.generateObstacles(speed); // Generate obstacles at a certain "speed", the higher the speed, the faster obstacles generate.
 
-        obstacles.generateObstacles(speed);
-
-        bird.startMotion(gravity);
-        game.addGameOverEl(endGame);
-        game.addObstacleAtMidEL(obstacleAtMid);
-        gameOn = true;
+        bird.startMotion(gravity); // Enable "gravity". The higher gravity, the faster the bird drops.
+        game.addGameOverEl(endGame); // Enable the event listener for the "gameOver" event.
+        game.addObstacleAtMidEL(obstacleAtMid); // Enable the event listener for the "obstacleAtMid" event.
+        gameOn = true; // Boolean value to signify game is playing.
     };
 
+    const startGame = () => {
+        factory.reset(); // Clear all obstacles in the factory.
+        bird.reset(); // Return the bird to its default height.
+
+        continueGame();
+    };
+
+
     const stopGame = () => {
-        bird.stopMotion();
-        game.removeGameOverEl(endGame);
-        game.removeObstacleAtMidEL(obstacleAtMid);
-        manager.stopAll();
+        bird.stopMotion(); // Freeze the bird in place.
+        game.removeGameOverEl(endGame); // Remove event listener for the "gameOver" events.
+        game.removeObstacleAtMidEL(obstacleAtMid); // Remove event listener for the "obstacleAtMid" event.
+        manager.stopAll(); // Stop all obstacles in place.
 
         gameOn = false;
         gameOnPause = true;
-        obstacles.stopGenerateObstacles();
+        obstacles.stopGenerateObstacles(); // Stop the engine from generating more obstacles
     };
 
     const endGame = () => {

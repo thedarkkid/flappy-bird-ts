@@ -1,86 +1,54 @@
 import "./style.scss";
-import Bird from "./core/components/Bird";
-import ObstacleFactory from "./core/components/obstacle/ObstacleFactory";
-import ObstacleManager from "./core/components/obstacle/ObstacleManager";
-import Obstacle from "./core/components/obstacle/Obstacle";
+import {Factory, Manager} from "./core/components/Obstacle";
 import Controller from "./core/Controller";
+import {birdControl, obstaclesControl} from "./core/Game";
+import Obstacle from "./core/components/obstacle/Obstacle";
 
 // Check to use events to manage game over.
 document.addEventListener('DOMContentLoaded', () => {
-    let bird: Bird = new Bird(document.querySelector('.bird'));
-    const factory =  ObstacleFactory;
-    const manager = ObstacleManager;
+    const factory =  Factory;
+    const manager = Manager;
     const game = Controller;
 
-    let birdMotionTimerID: any;
-    let obstacleGeneratorTimerID: any;
+    const bird =  birdControl;
+    const obstacles =  obstaclesControl;
+
 
     let gameOn: boolean = false;
     let gameOnPause: boolean = false;
     let gravity:number = 2;
+    let speed: number = 3;
 
     const obstacleAtMid = (e: CustomEvent<Obstacle>) => {
-        if(gameOver(e.detail)) endGame();
-    };
-
-    const startBirdMotion = () => {
-        birdMotionTimerID = setInterval(() => {
-            bird.fall(gravity);
-            bird.addFlyEL();
-        }, 20);
-    };
-
-    const stopBirdMotion =() => {
-        bird.removeFlyEL();
-        clearInterval(birdMotionTimerID);
-    };
-
-    const resetBird = () => {
-        bird = new Bird(document.querySelector('.bird'));
-    };
-
-    const generateObstacles = () => {
-        manager.generateObstacle();
-        obstacleGeneratorTimerID = setInterval(() => {
-            manager.generateObstacle();
-        }, 3000);
+        obstacles.obstacleAtMid(e, endGame)
     };
 
     const startGame = () => {
-        // Clear all previous elements.
         factory.reset();
-        resetBird();
+        bird.reset();
 
-        // Start generating obstacles.
-        generateObstacles();
+        obstacles.generateObstacles(speed);
 
-        // Make bird start moving.
-        startBirdMotion();
+        bird.startMotion(gravity);
         game.addGameOverEl(endGame);
         game.addObstacleAtMidEL(obstacleAtMid);
         gameOn = true;
     };
 
     const stopGame = () => {
-        stopBirdMotion();
+        bird.stopMotion();
         game.removeGameOverEl(endGame);
         game.removeObstacleAtMidEL(obstacleAtMid);
         manager.stopAll();
 
         gameOn = false;
         gameOnPause = true;
-
-        clearInterval(obstacleGeneratorTimerID);
+        obstacles.stopGenerateObstacles();
     };
 
     const endGame = () => {
         stopGame();
         gameOnPause = false;
-    };
-
-    const gameOver = (obstacle: Obstacle): boolean => {
-        if(obstacle == null) return true;
-        return obstacle.MidInterface && (bird.Altitude  < obstacle.Height); // 150 = ground height, which bird < obstacle
     };
 
     startGame();

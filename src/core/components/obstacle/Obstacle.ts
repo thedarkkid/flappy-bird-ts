@@ -2,7 +2,7 @@ import {getOAMEvent} from "../../Events";
 
 export default class Obstacle{
     private readonly node_: HTMLDivElement;
-    private readonly bottom: number =  Math.ceil(Math.random() * 60);
+    private readonly bottom: number =  Math.ceil(Math.random() * 60)+20;
     private left: number = 500;
 
     constructor(_node: HTMLDivElement) {

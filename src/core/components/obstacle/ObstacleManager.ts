@@ -1,6 +1,6 @@
 import Obstacle from "./Obstacle";
-import ObstacleStorage  from "./ObstacleStorage";
-import ObstacleFactory from "./ObstacleFactory";
+import Storage  from "./ObstacleStorage";
+import Factory from "./ObstacleFactory";
 
 class ObstacleManager {
     private static _instance: ObstacleManager;
@@ -19,17 +19,23 @@ class ObstacleManager {
 
     move = (obstacleId: number): void => {
         if(this.isMoving(obstacleId)) return;
-        const obstacle: Obstacle = ObstacleStorage.get(obstacleId);
+        const obstacle: Obstacle = Storage.get(obstacleId);
 
         const obstacleMoveId = setInterval( () => {
             obstacle.slide(2);
             obstacle.checkAtMid();
             if(obstacle.Out) {
-                ObstacleFactory.destroy(obstacleId);
+                Factory.destroy(obstacleId);
             }
         }, 20);
 
         this.moving.set(obstacleId, obstacleMoveId);
+    };
+
+    moveAll = () => {
+        Storage.forEach( (obstacle, key, map) => {
+            this.move(key);
+        });
     };
 
     isMoving = (obstacleId: number): boolean => {
@@ -52,18 +58,18 @@ class ObstacleManager {
 
     addToDisplay = (obstacleId: number): void => {
         if(this.isMoving(obstacleId)) return;
-        if(!ObstacleStorage.has(obstacleId)) return;
-        this.display.appendChild(ObstacleStorage.get(obstacleId).Node);
+        if(!Storage.has(obstacleId)) return;
+        this.display.appendChild(Storage.get(obstacleId).Node);
     };
 
     removeFromDisplay = (obstacleId: number): void => {
-        const obstacle = ObstacleStorage.get(obstacleId);
+        const obstacle = Storage.get(obstacleId);
         obstacle.Node.remove();
         this.stop(obstacleId);
     };
 
     generateObstacle = () => {
-        const obstacleId: number = ObstacleFactory.create();
+        const obstacleId: number = Factory.create();
         this.addToDisplay(obstacleId);
         this.move(obstacleId);
     };

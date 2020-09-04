@@ -1,5 +1,6 @@
 import Obstacle from "./Obstacle";
 
+
 class ObstacleStorage {
     private static _instance: ObstacleStorage;
     private obstacles:Map<number, Obstacle> = new Map<number, Obstacle>();
@@ -27,6 +28,10 @@ class ObstacleStorage {
         if(num <= 0) return null;
         if(this.obstacles.has(num)) return this.obstacles.get(this.tally);
         else return this.pop(num-1);
+    };
+
+    forEach = (fn: (value?: Obstacle, key?:number, map?:Map<number, Obstacle>) => void): void => {
+        this.obstacles.forEach( (obstacle, key, map) => {fn(obstacle, key, map)})
     };
 
     removeAll = (): void => {

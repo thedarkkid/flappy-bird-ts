@@ -1,6 +1,6 @@
 import Bird from "./components/Bird";
 
-export default class Controller {
+export default class Eventor {
 
     public static addObstacleAtMidEL = (fn: Function) => {
         document.addEventListener("obstacleAtMid", (e) => {fn(e)});

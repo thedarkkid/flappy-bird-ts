@@ -1,14 +1,12 @@
 import "./style.scss";
-import {Factory, Manager} from "./core/components/Obstacle";
-import Controller from "./core/Controller";
+import Obstacle,{Factory, Manager} from "./core/components/Obstacle";
 import {birdControl, obstaclesControl} from "./core/Game";
-import Obstacle from "./core/components/obstacle/Obstacle";
+import Eventor from "./core/Eventor";
 
-// Check to use events to manage game over.
 document.addEventListener('DOMContentLoaded', () => {
     const factory =  Factory;
     const manager = Manager;
-    const game = Controller;
+    const eventor = Eventor;
 
     const bird =  birdControl;
     const obstacles =  obstaclesControl;
@@ -24,11 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const continueGame = () => {
+        manager.moveAll();
         obstacles.generateObstacles(speed); // Generate obstacles at a certain "speed", the higher the speed, the faster obstacles generate.
 
         bird.startMotion(gravity); // Enable "gravity". The higher gravity, the faster the bird drops.
-        game.addGameOverEl(endGame); // Enable the event listener for the "gameOver" event.
-        game.addObstacleAtMidEL(obstacleAtMid); // Enable the event listener for the "obstacleAtMid" event.
+        eventor.addGameOverEl(endGame); // Enable the event listener for the "gameOver" event.
+        eventor.addObstacleAtMidEL(obstacleAtMid); // Enable the event listener for the "obstacleAtMid" event.
         gameOn = true; // Boolean value to signify game is playing.
     };
 
@@ -39,11 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
         continueGame();
     };
 
-
     const stopGame = () => {
         bird.stopMotion(); // Freeze the bird in place.
-        game.removeGameOverEl(endGame); // Remove event listener for the "gameOver" events.
-        game.removeObstacleAtMidEL(obstacleAtMid); // Remove event listener for the "obstacleAtMid" event.
+        eventor.removeGameOverEl(endGame); // Remove event listener for the "gameOver" events.
+        eventor.removeObstacleAtMidEL(obstacleAtMid); // Remove event listener for the "obstacleAtMid" event.
         manager.stopAll(); // Stop all obstacles in place.
 
         gameOn = false;

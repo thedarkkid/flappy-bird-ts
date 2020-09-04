@@ -1,4 +1,4 @@
-import ObstacleFactory from "./ObstacleFactory";
+import {ObstacleAtMid} from "./events";
 
 export default class Obstacle{
     private readonly node_: HTMLDivElement;
@@ -17,6 +17,10 @@ export default class Obstacle{
         this.node_.style.left = this.left + 'px';
     };
 
+    checkAtMid = () => {
+        if (this.MidInterface) this.node_.dispatchEvent(ObstacleAtMid);
+    };
+
     get Node(){
         return this.node_;
     };
@@ -27,5 +31,9 @@ export default class Obstacle{
 
     get MidInterface(){
         return this.left > 200 && this.left < 280;
+    }
+
+    get Height(){
+        return this.bottom+300;
     }
 }

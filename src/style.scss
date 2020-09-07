@@ -4,29 +4,81 @@
   position: absolute;
   overflow: hidden;
   .sky{
-    background: lightblue;
+    background-color: lightblue;
+    background-image: url("assets/sky-bg.png");
+    background-size: 1000px 580px;
+    background-repeat: no-repeat;
     width: 500px;
     height: 580px;
     position: absolute;
     .bird{
-      background-color: yellow;
+      background-image: url("assets/bird.png");
+      background-size: 75px 55px;
       position: absolute;
       height: 45px;
       width: 60px;
     }
   }
   .ground {
-    background: brown;
-    width: 500px;
-    height: 150px;
     position: absolute;
-    bottom: 0;
+    top: 600px;
+    height: 150px;
+    background-image: url('assets/ground.png');
+    background-repeat: repeat-x;
+    width: 100%;
+    z-index: +1;
+  }
+  .ground-container {
+    height: 150px;
+    width: 580px;
+    position: absolute;
+  }
+
+  .ground-moving {
+    position: absolute;
+    top: 580px;
+    height: 150px;
+    background-image: url('assets/ground.png');
+    background-repeat: repeat-x;
+    animation: slide 250s infinite linear;
+    -webkit-animation: slide 250s infinite linear;
+    width: 100%;
+    z-index: +1;
   }
 
   .obstacle {
-    background-color: green;
+    background-image: url("assets/pipe.png");
+    background-size: 60px 300px;
     width: 60px;
     height: 300px;
     position: absolute;
+  }
+
+  .topObstacle {
+    background-image: url("assets/pipe.png");
+    background-size: 60px 300px;
+    transform: rotate(180deg);
+    width: 60px;
+    height: 300px;
+    position: absolute;
+  }
+
+
+}
+@keyframes slide {
+  from {
+    background-position: 10000%;
+  }
+  to {
+    background-position: 0;
+  }
+}
+
+@-webkit-keyframes slideright {
+  from {
+    background-position: 10000%;
+  }
+  to {
+    background-position: 0;
   }
 }

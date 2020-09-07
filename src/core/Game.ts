@@ -12,7 +12,7 @@ export const birdControl =  {
         birdMotionTimerID = setInterval(() => {
             bird.fall(gravity);
         }, 20);
-         bird.addFlyEL();
+        bird.addFlyEL();
      },
 
      stopMotion: () => {

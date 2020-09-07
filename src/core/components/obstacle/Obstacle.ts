@@ -4,12 +4,16 @@ export default class Obstacle{
     private readonly node_: HTMLDivElement;
     private readonly bottom: number =  Math.ceil(Math.random() * 60)+20;
     private left: number = 500;
+    private top: boolean = false;
 
-    constructor(_node: HTMLDivElement) {
+    constructor(_node: HTMLDivElement, top?: boolean) {
+        this.top = (top)? top : false;
         this.node_ = _node;
         this.node_.style.bottom = this.bottom + 'px';
         this.node_.style.left = this.left + 'px';
-        this.node_.classList.add("obstacle");
+
+        const className: string = (top) ? "topObstacle" : "obstacle";
+        this.node_.classList.add(className);
     }
 
     slide = (distance: number): void => {

@@ -5,9 +5,9 @@ import ObstacleManager from "./ObstacleManager";
 class ObstacleFactory {
     private static _instance: ObstacleFactory;
 
-    create = ():number => {
+    create = (top?: boolean):number => {
         const obsNode = document.createElement("div");
-        const obstacle: Obstacle = new Obstacle(obsNode);
+        const obstacle: Obstacle = new Obstacle(obsNode, top);
         return ObstacleStorage.add(obstacle);
     };
 

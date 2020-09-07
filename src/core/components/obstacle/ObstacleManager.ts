@@ -68,8 +68,8 @@ class ObstacleManager {
         this.stop(obstacleId);
     };
 
-    generateObstacle = () => {
-        const obstacleId: number = Factory.create();
+    generateObstacle = (top?: boolean) => {
+        const obstacleId: number = Factory.create(top);
         this.addToDisplay(obstacleId);
         this.move(obstacleId);
     };

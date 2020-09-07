@@ -29,7 +29,10 @@ export const birdControl =  {
 export const gameControl = {
      gameOver: (obstacle: Obstacle): boolean => {
         if(obstacle == null) return true;
-        return obstacle.MidInterface && (bird.Altitude  < obstacle.Height); // 150 = ground height, which bird < obstacle
+        const birdHitBottom: boolean = bird.Altitude  < obstacle.Height;
+        const birdHitTop: boolean = bird.Altitude + 45 > obstacle.Height - 300; // 45 is bird height
+        let ruleToUse: boolean = (obstacle.IsTop) ? birdHitTop : birdHitBottom; // can shorted these three lines into one but leaving it for readability purposes
+        return obstacle.MidInterface && (ruleToUse); //
     }
 };
 
@@ -37,8 +40,10 @@ export const obstaclesControl = {
     generateObstacles: (speed: number) => {
         speed = 2500/speed + ((3000/speed)/2); // calculation for how fast/slow obstacles are generated.
         manager.generateObstacle();
+        manager.generateObstacle(true);
         obstacleGeneratorTimerID = setInterval(() => {
             manager.generateObstacle();
+            manager.generateObstacle(true);
         }, speed);
     },
 

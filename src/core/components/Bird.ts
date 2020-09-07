@@ -48,6 +48,6 @@ export default class Bird {
     };
 
     get Altitude(){
-        return this.bottom +150;
+        return this.bottom +150; // 150 = ground height, which bird < obstacle
     }
 }

@@ -3,12 +3,14 @@ import {getOAMEvent} from "../../Events";
 export default class Obstacle{
     private readonly node_: HTMLDivElement;
     private readonly bottom: number =  Math.ceil(Math.random() * 60)+20;
+    private readonly top: boolean = false;
     private left: number = 500;
-    private top: boolean = false;
+    private gap: number = 430;
 
-    constructor(_node: HTMLDivElement, top?: boolean) {
+        constructor(_node: HTMLDivElement, top?: boolean) {
         this.top = (top)? top : false;
         this.node_ = _node;
+        this.bottom = (top)? this.bottom+this.gap: this.bottom ;
         this.node_.style.bottom = this.bottom + 'px';
         this.node_.style.left = this.left + 'px';
 
@@ -40,5 +42,9 @@ export default class Obstacle{
 
     get Height(){
         return this.bottom+300;
+    }
+
+    get IsTop(){
+        return this.top;
     }
 }

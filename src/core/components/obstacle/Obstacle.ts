@@ -1,4 +1,4 @@
-import {getOAMEvent} from "../../Events";
+import {getOAMEvent} from "../../utils/Events";
 
 export default class Obstacle{
     private readonly node_: HTMLDivElement;

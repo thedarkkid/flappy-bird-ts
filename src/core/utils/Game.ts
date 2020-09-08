@@ -1,6 +1,6 @@
-import Bird from "./components/Bird";
-import Obstacle from "./components/obstacle/Obstacle";
-import ObstacleManager from "./components/obstacle/ObstacleManager";
+import Bird from "../components/Bird";
+import Obstacle from "../components/obstacle/Obstacle";
+import ObstacleManager from "../components/obstacle/ObstacleManager";
 
 let birdMotionTimerID: any;
 let bird: Bird = new Bird(document.querySelector('.bird'));

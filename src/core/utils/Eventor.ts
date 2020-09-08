@@ -1,4 +1,4 @@
-import Bird from "./components/Bird";
+import Bird from "../components/Bird";
 
 export default class Eventor {
 

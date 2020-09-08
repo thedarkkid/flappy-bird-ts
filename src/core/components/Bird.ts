@@ -1,4 +1,4 @@
-import {GameOverEvent} from "../Events";
+import {GameOverEvent} from "../utils/Events";
 
 export default class Bird {
     private node_: HTMLDivElement;

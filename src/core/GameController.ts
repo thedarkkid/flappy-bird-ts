@@ -1,6 +1,7 @@
 import Obstacle, {Factory, Manager} from "./components/Obstacle";
 import Eventor from "./utils/Eventor";
 import {birdControl, obstaclesControl, screenControl} from "./utils/Game";
+import {Key} from "webpack-merge/dist/types";
 
 const factory =  Factory;
 const manager = Manager;
@@ -30,6 +31,9 @@ export const continueGame = () => {
 };
 
 export const startGame = () => {
+    console.log("hia");
+    eventor.removeKeyupEL((e: KeyboardEvent) => startGame);
+    screen.start();
     factory.reset(); // Clear all obstacles in the factory.
     bird.reset(); // Return the bird to its default height.
 
@@ -54,6 +58,7 @@ export const endGame = () => {
 
 export const waiting = () => {
     screen.waiting();
+    eventor.addKeyupEL((e: KeyboardEvent) => startGame);
 };
 
-export default {endGame, stopGame, startGame, continueGame}
+export default {endGame, stopGame, startGame, continueGame, waiting}

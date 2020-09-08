@@ -33,6 +33,7 @@ class ObstacleManager {
     };
 
     moveAll = () => {
+        if(Storage.length <= 0) return;
         Storage.forEach( (obstacle, key, map) => {
             this.move(key);
         });

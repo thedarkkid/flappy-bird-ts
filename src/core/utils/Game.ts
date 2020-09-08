@@ -35,9 +35,6 @@ export const gameControl = {
         const birdHitTop: boolean = bird.Altitude + 45 > obstacle.Height - 300; // 45 is bird height
         let ruleToUse: boolean = (obstacle.IsTop) ? birdHitTop : birdHitBottom; // can shorted these three lines into one but leaving it for readability purposes
         return obstacle.MidInterface && (ruleToUse); //
-    },
-    waiting: () => {
-
     }
 };
 

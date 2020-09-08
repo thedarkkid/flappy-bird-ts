@@ -1,11 +1,11 @@
 import Obstacle, {Factory, Manager} from "./components/Obstacle";
 import Eventor from "./utils/Eventor";
-import {birdControl, obstaclesControl} from "./utils/Game";
+import {birdControl, obstaclesControl, screenControl} from "./utils/Game";
 
 const factory =  Factory;
 const manager = Manager;
 const eventor = Eventor;
-
+const screen = screenControl;
 const bird =  birdControl;
 const obstacles =  obstaclesControl;
 
@@ -24,7 +24,7 @@ export const continueGame = () => {
     obstacles.generateObstacles(speed); // Generate obstacles at a certain "speed", the higher the speed, the faster obstacles generate.
 
     bird.startMotion(gravity); // Enable "gravity". The higher gravity, the faster the bird drops.
-    eventor.addGameOverEl(endGame); // Enable the event listener for the "gameOver" event.
+    eventor.addGameOverEl(endGame); // Enable the event listener for the "isOver" event.
     eventor.addObstacleAtMidEL(obstacleAtMid); // Enable the event listener for the "obstacleAtMid" event.
     gameOn = true; // Boolean value to signify game is playing.
 };
@@ -38,7 +38,7 @@ export const startGame = () => {
 
 export const stopGame = () => {
     bird.stopMotion(); // Freeze the bird in place.
-    eventor.removeGameOverEl(endGame); // Remove event listener for the "gameOver" events.
+    eventor.removeGameOverEl(endGame); // Remove event listener for the "isOver" events.
     eventor.removeObstacleAtMidEL(obstacleAtMid); // Remove event listener for the "obstacleAtMid" event.
     manager.stopAll(); // Stop all obstacles in place.
 
@@ -50,6 +50,10 @@ export const stopGame = () => {
 export const endGame = () => {
     stopGame();
     gameOnPause = false;
+};
+
+export const waiting = () => {
+    screen.waiting();
 };
 
 export default {endGame, stopGame, startGame, continueGame}

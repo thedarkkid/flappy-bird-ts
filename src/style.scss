@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "BackTo1982";
+  src: local("BackTo1982"),
+  url("./assets/fonts/BACKTO1982.ttf") format("truetype");
+}
+
 .game-container{
   width: 500px;
   height: 730px;
@@ -62,9 +68,55 @@
     height: 300px;
     position: absolute;
   }
+}
 
+.game-overlay{
+  font-family: 'BackTo1982',serif;
+  width: 500px;
+  height: 710px;
+  overflow: hidden;
+  background-color: rgba(0,0,0,0.5);
+  z-index: +2 ;
+  position: absolute;
+
+  .game-message {
+    color: white;
+    display: none;
+    position: absolute;
+    top: 250px;
+    left: 100px;
+    text-align: center;
+    max-width: 300px;
+    .game-over{
+      top: -50px;
+    }
+  }
+  .game-text {
+    font-family: 'BackTo1982',serif;
+    font-size: xx-large;
+    font-weight: bold;
+  }
+  .console{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 100px;
+    .console-col{
+      margin: 10px 10px;
+    }
+    .small-margin{
+      margin: 5px 10px;
+    }
+    .no-margin{
+      margin: 0;
+    }
+    .underline{
+      border-bottom: solid 1px black;
+      padding-bottom: 5px;
+    }
+  }
 
 }
+
 @keyframes slide {
   from {
     background-position: 10000%;

@@ -1,6 +1,8 @@
 import Bird from "../components/Bird";
 import Obstacle from "../components/obstacle/Obstacle";
 import ObstacleManager from "../components/obstacle/ObstacleManager";
+import {clearScreen, pauseScreen, startScreen} from "./Screen";
+import eventor from "./Eventor";
 
 let birdMotionTimerID: any;
 let bird: Bird = new Bird(document.querySelector('.bird'));
@@ -27,12 +29,15 @@ export const birdControl =  {
 };
 
 export const gameControl = {
-     gameOver: (obstacle: Obstacle): boolean => {
+     isOver: (obstacle: Obstacle): boolean => {
         if(obstacle == null) return true;
         const birdHitBottom: boolean = bird.Altitude  < obstacle.Height;
         const birdHitTop: boolean = bird.Altitude + 45 > obstacle.Height - 300; // 45 is bird height
         let ruleToUse: boolean = (obstacle.IsTop) ? birdHitTop : birdHitBottom; // can shorted these three lines into one but leaving it for readability purposes
         return obstacle.MidInterface && (ruleToUse); //
+    },
+    waiting: () => {
+
     }
 };
 
@@ -48,10 +53,35 @@ export const obstaclesControl = {
     },
 
     obstacleAtMid: (e: CustomEvent<Obstacle>, endGame: Function) => {
-        if(gameControl.gameOver(e.detail)) endGame();
+        if(gameControl.isOver(e.detail)) endGame();
     },
 
      stopGenerateObstacles: () => {
         clearInterval(obstacleGeneratorTimerID);
     }
+};
+
+export const screenControl = {
+    showStartXCR: (e: KeyboardEvent) => {
+        startScreen(false);
+    },
+    showPauseXCR: (e: KeyboardEvent) => {
+        if(e.key == "enter") pauseScreen(true);
+    },
+    hidePauseXCR: (e: KeyboardEvent) => {
+        pauseScreen(false);
+    },
+    waiting: () => {
+        clearScreen();
+        startScreen(true);
+        eventor.addKeyupEL(screenControl.showStartXCR)
+    },
+    start: () => {
+        eventor.removeKeyupEL(screenControl.showStartXCR);
+        eventor.addKeyupEL(screenControl.showPauseXCR);
+    },
+    resume: () => {
+        pauseScreen(false);
+    }
+
 };

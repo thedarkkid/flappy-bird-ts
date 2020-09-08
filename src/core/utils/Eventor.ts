@@ -1,4 +1,3 @@
-import Bird from "../components/Bird";
 
 export default class Eventor {
 
@@ -18,5 +17,12 @@ export default class Eventor {
         document.addEventListener("gameOver", () => {fn()});
     };
 
+    public static addKeyupEL = (fn: Function) => {
+        document.addEventListener("keyup", (e) => {fn(e)});
+    };
+
+    public static removeKeyupEL = (fn: Function) => {
+        document.addEventListener("keyup", (e) => {fn(e)});
+    };
 
 }

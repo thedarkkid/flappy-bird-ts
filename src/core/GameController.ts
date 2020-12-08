@@ -64,6 +64,7 @@ export const stopGame = () => {
 export const endGame = () => {
     stopGame();
     gameOnPause = false;
+    obstacles.reset();
     restart();
 };
 

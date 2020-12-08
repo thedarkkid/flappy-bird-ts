@@ -8,7 +8,7 @@ let birdMotionTimerID: any;
 let bird: Bird = new Bird(document.querySelector('.bird'));
 const manager = ObstacleManager;
 let obstacleGeneratorTimerID: any;
-
+let canGenerateObstacles = true;
 export const birdControl =  {
      startMotion: (gravity: number) => {
         birdMotionTimerID = setInterval(() => {
@@ -40,6 +40,7 @@ export const gameControl = {
 
 export const obstaclesControl = {
     generateObstacles: (speed: number) => {
+        if(!canGenerateObstacles) return;
         speed = 2500/speed + ((3000/speed)/2); // calculation for how fast/slow obstacles are generated.
         manager.generateObstacle();
         manager.generateObstacle(true);
@@ -47,13 +48,19 @@ export const obstaclesControl = {
             manager.generateObstacle();
             manager.generateObstacle(true);
         }, speed);
+        canGenerateObstacles = true;
     },
 
     obstacleAtMid: (e: CustomEvent<Obstacle>, endGame: Function) => {
         if(gameControl.isOver(e.detail)) endGame();
     },
 
-     stopGenerateObstacles: () => {
+    reset: () => {
+        canGenerateObstacles = true;
+    },
+
+    stopGenerateObstacles: () => {
+        canGenerateObstacles = false;
         clearInterval(obstacleGeneratorTimerID);
     }
 };

@@ -18,7 +18,14 @@ class ObstacleFactory {
         ObstacleStorage.remove(obstacleId);
     };
 
+    destroyAll = (): void => {
+        ObstacleStorage.forEach( (obs: Obstacle, obstacleId: number) => {
+            this.destroy(obstacleId);
+        });
+    };
+
     reset = () => {
+        this.destroyAll();
         ObstacleManager.stopAll();
         ObstacleStorage.removeAll();
     };

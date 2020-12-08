@@ -1,4 +1,5 @@
 import {GameOverEvent} from "../utils/Events";
+import eventor from "../utils/Eventor";
 
 export default class Bird {
     private node_: HTMLDivElement;
@@ -24,7 +25,7 @@ export default class Bird {
     };
 
     public birdCrashed = () => {
-        if (this.Crashed) document.dispatchEvent(GameOverEvent);
+        if (this.Crashed) eventor.dispatch(GameOverEvent);
     };
 
     private ctrlFly = (e:KeyboardEvent) =>{
@@ -32,11 +33,11 @@ export default class Bird {
     };
 
     public addFlyEL= (): void => {
-        document.addEventListener('keyup', this.ctrlFly);
+        eventor.addKeyupEL(this.ctrlFly, "ctrlFly")
     };
 
     public removeFlyEL = (): void => {
-        document.removeEventListener('keyup', this.ctrlFly);
+        eventor.removeKeyupEL("ctrlFly");
     };
 
     get Static(){
@@ -44,6 +45,7 @@ export default class Bird {
     };
 
     get Crashed(){
+        // return false;
         return this.bottom <= 0;
     };
 

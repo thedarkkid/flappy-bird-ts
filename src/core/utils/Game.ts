@@ -1,7 +1,7 @@
 import Bird from "../components/Bird";
 import Obstacle from "../components/obstacle/Obstacle";
 import ObstacleManager from "../components/obstacle/ObstacleManager";
-import {clearScreen, pauseScreen, startScreen} from "./Screen";
+import {clearScreen, endScreen, pauseScreen, startScreen} from "./Screen";
 import eventor from "./Eventor";
 
 let birdMotionTimerID: any;
@@ -59,11 +59,9 @@ export const obstaclesControl = {
 };
 
 export const screenControl = {
-    showStartXCR: (e: KeyboardEvent) => {
-        startScreen(false);
-    },
+
     showPauseXCR: (e: KeyboardEvent) => {
-        if(e.key == "enter") pauseScreen(true);
+        if(e.key == "Enter") pauseScreen(true);
     },
     hidePauseXCR: (e: KeyboardEvent) => {
         pauseScreen(false);
@@ -71,11 +69,21 @@ export const screenControl = {
     waiting: () => {
         clearScreen();
         startScreen(true);
-        eventor.addKeyupEL(screenControl.showStartXCR)
+    },
+    restart: () => {
+        clearScreen();
+        endScreen(true);
     },
     start: () => {
-        eventor.removeKeyupEL(screenControl.showStartXCR);
-        eventor.addKeyupEL(screenControl.showPauseXCR);
+        clearScreen();
+        eventor.removeKeyupEL("hidePauseXCR");
+        eventor.addKeyupEL(screenControl.showPauseXCR, "showPauseXCR");
+    },
+    pause: () => {
+        clearScreen();
+        pauseScreen(true);
+        eventor.removeKeyupEL("showPauseXCR");
+        eventor.addKeyupEL(screenControl.hidePauseXCR, "hidePauseXCR");
     },
     resume: () => {
         pauseScreen(false);

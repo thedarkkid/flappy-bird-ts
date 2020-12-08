@@ -24,11 +24,12 @@ export const continueGame = () => {
     eventor.removeKeyupEL("continueGame");
     eventor.addKeyupEL(pauseGame, "pauseGame");
     manager.moveAll();
-    obstacles.generateObstacles(speed); // Generate obstacles at a certain "speed", the higher the speed, the faster obstacles generate.
     bird.startMotion(gravity); // Enable "gravity". The higher gravity, the faster the bird drops.
     eventor.addGameOverEl(endGame, "endGame"); // Enable the event listener for the "isOver" event.
     eventor.addObstacleAtMidEL(obstacleAtMid, "obstacleAtMid"); // Enable the event listener for the "obstacleAtMid" event.
     gameOn = true; // Boolean value to signify game is playing.
+    obstacles.reset();
+    obstacles.generateObstacles(speed); // Generate obstacles at a certain "speed", the higher the speed, the faster obstacles generate.
 };
 
 export const startGame = () => {

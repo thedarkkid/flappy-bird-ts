@@ -5,20 +5,36 @@
     <title>Flappy Bird</title>
 </head>
 <body>
-    <div class="game-container">
-        <div class="sky">
-            <div class="bird"></div>
+    <div id="screen" class="screen">
+        <div id="gameBody" class="game-body">
+            <div class="game-container">
+                <div class="sky">
+                    <div class="bird"></div>
+                </div>
+                <div class="ground-container">
+                    <div class="ground-moving"></div>
+                </div>
+            </div>
+            <div id="messageOverlay" class="game-overlay">
+                <div id="gameMsg" class="game-message">
+                    <h1 id="gtOver" class="mb-5 game-text game-over text-uppercase">game over</h1>
+                    <h1 id="gtPaused" class="mb-5 game-text game-over text-uppercase">game paused</h1>
+                    <h1 id="ktStart" class="game-text text-uppercase">press any key to start.</h1>
+                    <h1 id="ktResume" class="game-text text-uppercase">press any key to resume.</h1>
+                </div>
+            </div>
         </div>
-        <div class="ground-container">
-            <div class="ground-moving"></div>
-        </div>
-    </div>
-    <div id="messageOverlay" class="game-overlay">
-        <div id="gameMsg" class="game-message">
-            <h1 id="gtOver" class="mb-5 game-text game-over text-uppercase">game over</h1>
-            <h1 id="gtPaused" class="mb-5 game-text game-over text-uppercase">game paused</h1>
-            <h1 id="ktStart" class="game-text text-uppercase">press any key to start.</h1>
-            <h1 id="ktResume" class="game-text text-uppercase">press any key to resume.</h1>
+        <div id="scoreBoard" class="score-board">
+            <div class="container">
+                <div class="row">
+                    <div class="row-title game-text" style="color: cornflowerblue">Score:</div>
+                    <div id="score" class="row-value game-text"></div>
+                </div>
+                <div class="row">
+                    <div class="row-title game-text" style="color: slateblue">Jumps:</div>
+                    <div id="jumps" class="row-value game-text"></div>
+                </div>
+            </div>
         </div>
     </div>
 </body>

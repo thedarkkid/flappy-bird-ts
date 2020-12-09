@@ -9,6 +9,7 @@ let bird: Bird = new Bird(document.querySelector('.bird'));
 const manager = ObstacleManager;
 let obstacleGeneratorTimerID: any;
 let canGenerateObstacles = true;
+
 export const birdControl =  {
      startMotion: (gravity: number) => {
         birdMotionTimerID = setInterval(() => {
@@ -48,7 +49,7 @@ export const obstaclesControl = {
             manager.generateObstacle();
             manager.generateObstacle(true);
         }, speed);
-        canGenerateObstacles = true;
+        obstaclesControl.reset();
     },
 
     obstacleAtMid: (e: CustomEvent<Obstacle>, endGame: Function) => {
@@ -66,7 +67,6 @@ export const obstaclesControl = {
 };
 
 export const screenControl = {
-
     showPauseXCR: (e: KeyboardEvent) => {
         if(e.key == "Enter") pauseScreen(true);
     },
@@ -92,8 +92,4 @@ export const screenControl = {
         eventor.removeKeyupEL("showPauseXCR");
         eventor.addKeyupEL(screenControl.hidePauseXCR, "hidePauseXCR");
     },
-    resume: () => {
-        pauseScreen(false);
-    }
-
 };

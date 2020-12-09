@@ -1,7 +1,6 @@
 import Obstacle, {Factory, Manager} from "./components/Obstacle";
 import Eventor from "./utils/Eventor";
 import {birdControl, obstaclesControl, screenControl} from "./utils/Game";
-import {Key} from "webpack-merge/dist/types";
 
 const factory =  Factory;
 const manager = Manager;
@@ -20,16 +19,32 @@ const obstacleAtMid = (e: CustomEvent<Obstacle>) => {
     obstacles.obstacleAtMid(e,endGame);
 };
 
+export const pauseGame = (e: KeyboardEvent) => {
+    if(e.key !== "Enter") return; // make sure the key hit is enter.
+    stopGame(); // put the game on hold
+    eventor.removeKeyupEL("pauseGame"); // remove the "pause game event"
+    screen.pause();
+    eventor.addKeyupEL((e: KeyboardEvent) => {
+        continueGame();
+    }, "continueGame");
+};
+
 export const continueGame = () => {
     eventor.removeKeyupEL("continueGame");
     eventor.addKeyupEL(pauseGame, "pauseGame");
+
     manager.moveAll();
     bird.startMotion(gravity); // Enable "gravity". The higher gravity, the faster the bird drops.
+
     eventor.addGameOverEl(endGame, "endGame"); // Enable the event listener for the "isOver" event.
     eventor.addObstacleAtMidEL(obstacleAtMid, "obstacleAtMid"); // Enable the event listener for the "obstacleAtMid" event.
-    gameOn = true; // Boolean value to signify game is playing.
+
     obstacles.reset();
-    obstacles.generateObstacles(speed); // Generate obstacles at a certain "speed", the higher the speed, the faster obstacles generate.
+    if(gameOnPause) setTimeout( () => obstacles.generateObstacles(speed), 500);
+    else obstacles.generateObstacles(speed); // Generate obstacles at a certain "speed", the higher the speed, the faster obstacles generate.
+
+    gameOnPause = false;
+    gameOn = true; // Boolean value to signify game is playing.
 };
 
 export const startGame = () => {
@@ -37,18 +52,8 @@ export const startGame = () => {
     screen.start();
     factory.reset(); // Clear all obstacles in the factory.
     bird.reset(); // Return the bird to its default height.
-
+    obstacles.reset();
     continueGame();
-};
-
-export const pauseGame = (e: KeyboardEvent) => {
-    if(e.key !== "Enter") return;
-    stopGame();
-    eventor.removeKeyupEL("pauseGame");
-    screen.pause();
-    eventor.addKeyupEL((e: KeyboardEvent) => {
-        continueGame();
-    }, "continueGame");
 };
 
 export const stopGame = () => {
@@ -65,7 +70,6 @@ export const stopGame = () => {
 export const endGame = () => {
     stopGame();
     gameOnPause = false;
-    obstacles.reset();
     restart();
 };
 

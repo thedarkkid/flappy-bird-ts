@@ -3,6 +3,7 @@ import Obstacle from "../components/obstacle/Obstacle";
 import ObstacleManager from "../components/obstacle/ObstacleManager";
 import {clearScreen, endScreen, pauseScreen, startScreen} from "./Screen";
 import eventor from "./Eventor";
+import GameElement from "../components/GameElement";
 
 let birdMotionTimerID: any;
 let bird: Bird = new Bird(document.querySelector('.bird'));
@@ -92,4 +93,10 @@ export const screenControl = {
         eventor.removeKeyupEL("showPauseXCR");
         eventor.addKeyupEL(screenControl.hidePauseXCR, "hidePauseXCR");
     },
+};
+
+export const statsControl = {
+    init: (gravity: number, speed: number, scoreElement: GameElement, jumpElement: GameElement) =>{
+
+    }
 };

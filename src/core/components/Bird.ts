@@ -45,7 +45,6 @@ export default class Bird {
     };
 
     get Crashed(){
-        // return false;
         return this.bottom <= 0;
     };
 

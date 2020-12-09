@@ -1,6 +1,7 @@
 import Obstacle, {Factory, Manager} from "./components/Obstacle";
 import Eventor from "./utils/Eventor";
 import {birdControl, obstaclesControl, screenControl, statsControl} from "./utils/Game";
+import GameElement from "./components/GameElement";
 
 const factory =  Factory;
 const manager = Manager;
@@ -14,7 +15,10 @@ let gameOnPause: boolean = false;
 let gravity:number = 2;
 let speed: number = 1; // Number between 1 & 3.
 
-let stats = statsControl(gravity, speed);
+const stats = statsControl.init(gravity, speed,
+    new GameElement("#score"),
+    new GameElement("#jumps")
+);
 
 const obstacleAtMid = (e: CustomEvent<Obstacle>) => {
     obstacles.obstacleAtMid(e,endGame);
@@ -34,6 +38,7 @@ export const continueGame = () => {
 
     manager.moveAll(); // start moving the obstacles.
     bird.startMotion(gravity); // Enable "gravity". The higher gravity, the faster the bird drops.
+    stats.start();
 
     eventor.addGameOverEl(endGame, "endGame"); // Enable the event listener for the "isOver" event.
     eventor.addObstacleAtMidEL(obstacleAtMid, "obstacleAtMid"); // Enable the event listener for the "obstacleAtMid" event.
@@ -53,12 +58,14 @@ export const startGame = () => {
     factory.reset(); // Clear all obstacles in the factory.
     bird.reset(); // Return the bird to its default height.
     obstacles.reset(); // Allow generation of obstacles.
+    stats.reset();
     continueGame(); // Continue the game.
 };
 
 export const stopGame = () => {
     obstacles.stopGenerateObstacles(); // Stop the engine from generating more obstacles
     bird.stopMotion(); // Freeze the bird in place.
+    stats.hold();
     eventor.removeGameOverEl("endGame"); // Remove event listener for the "isOver" events.
     eventor.removeKeyupEL("pauseGame");
     eventor.removeObstacleAtMidEL("obstacleAtMid"); // Remove event listener for the "obstacleAtMid" event.

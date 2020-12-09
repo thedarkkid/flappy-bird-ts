@@ -33,6 +33,16 @@ export default class Eventor {
         document.removeEventListener("keyup", eventHandler);
     };
 
+    public static addBirdJumpEL = (fn: Function, name: string) => {
+        const eventHandler = Eventor.addEventHandler((e: Event) => fn(e), name);
+        document.addEventListener("birdJumped", eventHandler);
+    };
+
+    public static removeBirdJumpEL = (name:string) => {
+        const eventHandler = Eventor.getEventHandler(name);
+        document.removeEventListener("birdJumped", eventHandler);
+    };
+
     public static dispatch = (event: Event) => {
         document.dispatchEvent(event);
     };

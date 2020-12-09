@@ -9,7 +9,7 @@ export default class GameElement{
         this.element[property] = `value`;
     };
 
-    changeContent = (content: HTMLElement): void => {this.element.innerHTML  = `${content}`};
-    appendContent = (content: HTMLElement): void => {this.element.innerHTML += `${content}`};
+    changeContent = (content: HTMLElement): void => {this.element.innerHTML  = content.innerHTML;};
+    appendContent = (content: HTMLElement): void => {this.element.innerHTML += content.innerHTML;};
     getChild = (childSelector: string):GameElement => { return new GameElement(`${this.selector} ${childSelector}`);}
 }

@@ -1,4 +1,4 @@
-import {GameOverEvent} from "../utils/Events";
+import {GameOverEvent, BirdJumpedEvent} from "../utils/Events";
 import eventor from "../utils/Eventor";
 
 export default class Bird {
@@ -16,6 +16,7 @@ export default class Bird {
         if(this.bottom >= 495 || this.Crashed) return;
         this.bottom += 50;
         this.node_.style.bottom = this.bottom + 'px';
+        eventor.dispatch(BirdJumpedEvent);
     };
 
     public fall = (gravity: number): void => {

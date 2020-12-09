@@ -65,7 +65,7 @@ export default class GameStats{
     }
 
     get Score(){
-        return Math.floor((this.time/1000)/(this._gravity*this._speed));
+        return Math.floor((this.time/1000)/(this._gravity*this._speed+this.Jumps));
     }
 
 }
